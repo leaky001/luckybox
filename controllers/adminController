@@ -1,0 +1,16 @@
+const User = require("../models/userModel");
+
+exports.promoteUser = async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, { role: "admin" }, { new: true });
+  res.json({ message: "User promoted to admin", user: { id: user._id, role: user.role } });
+};
+
+exports.getAllUsers = async (req, res) => {
+  const user = await User.findOne(); // Or use query param to page through
+  res.json({ message: "User detail found", user: {
+    id: user._id,
+    name: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+    points: user.points
+  }});
+};

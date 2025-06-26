@@ -1,23 +1,21 @@
-const Reward = require("../models/Reward");
+const Reward = require("../models/rewardModel");
 
-const getRewards = async (req, res) => {
-  const rewards = await Reward.find();
-  res.json(rewards);
-};
-
-const createReward = async (req, res) => {
+exports.createReward = async (req, res) => {
   const reward = await Reward.create(req.body);
-  res.status(201).json(reward);
+  res.status(201).json({ message: "Reward created successfully", reward });
 };
 
-const updateReward = async (req, res) => {
-  const reward = await Reward.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(reward);
+exports.getReward = async (req, res) => {
+  const reward = await Reward.findOne();
+  res.json({ message: "Available reward", reward });
 };
 
-const deleteReward = async (req, res) => {
+exports.updateReward = async (req, res) => {
+  const updatedReward = await Reward.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json({ message: "Reward updated successfully", updatedReward });
+};
+
+exports.deleteReward = async (req, res) => {
   await Reward.findByIdAndDelete(req.params.id);
-  res.json({ msg: "Reward deleted" });
+  res.json({ message: "Reward deleted successfully" });
 };
-
-module.exports = { getRewards, createReward, updateReward, deleteReward };
